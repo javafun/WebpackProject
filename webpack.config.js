@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].[chunkhash].js'
   },
   module:{
     rules:[
@@ -31,7 +31,8 @@ module.exports = {
   },
   plugins:[
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
+      // add manifest to signalify whether vendor js file has changed.
+      names: ['vendor','manifest']
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
