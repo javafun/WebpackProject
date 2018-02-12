@@ -10,3 +10,9 @@ git clone https://github.com/StephenGrider/WebpackProject.git
 cd WebpackProject
 npm install
 ```
+
+## Update github pages
+
+```
+git push origin `git subtree split --prefix dist master`:gh-pages --force
+```
