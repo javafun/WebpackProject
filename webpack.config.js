@@ -1,6 +1,9 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var debug = process.env.NODE_ENV !== "production";
+const prod = process.argv.indexOf('-p') !== -1;
+
 
 const VENDOR_LIBS = [
   'faker','lodash','react','react-redux','react-dom',
@@ -8,7 +11,9 @@ const VENDOR_LIBS = [
   'redux'
 ];
 
-module.exports = {
+console.log(prod);
+
+const config = {
   entry: {
     bundle: './src/index.js',
     vendor: VENDOR_LIBS
@@ -38,10 +43,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-      //JSON.stringify(process.env.NODE_ENV)
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': 
+    //   //JSON.stringify('production')
+    //   JSON.stringify(process.env.NODE_ENV)
+    // }),
     // new webpack.optimize.UglifyJsPlugin({
     //   mangle: true,
     //   compress: {
@@ -60,3 +66,18 @@ module.exports = {
     //new webpack.optimize.AggressiveMergingPlugin()
   ]
 };
+
+config.plugins = config.plugins||[];
+if (prod) {
+  config.plugins.push(new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production')
+  }));
+} else {
+  config.plugins.push(new webpack.DefinePlugin({
+      'process.env': {
+          'NODE_ENV': `""`
+      }
+  }));
+}
+
+module.exports = config;

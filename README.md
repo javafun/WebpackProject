@@ -16,3 +16,14 @@ npm install
 ```
 git push origin `git subtree split --prefix dist master`:gh-pages --force
 ```
+
+## Surge hosting
+
+1. Install Surge
+```
+  npm install -g surge
+```
+2. Deploy to Surge
+```
+    surge -p dist
+```
